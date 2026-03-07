@@ -1,35 +1,120 @@
-@if (selectedMovieDetails()) {
-  <div class="movie-container">
-    <h1>{{ selectedMovieDetails().Title }} ({{ selectedMovieDetails().Year }})</h1>
-    
-    <div class="meta-info">
-      <span><strong>Rated:</strong> {{ selectedMovieDetails().Rated }}</span> | 
-      <span><strong>Runtime:</strong> {{ selectedMovieDetails().Runtime }}</span> | 
-      <span><strong>Genre:</strong> {{ selectedMovieDetails().Genre }}</span>
-    </div>
-
-    <img [src]="selectedMovieDetails().Poster" [alt]="selectedMovieDetails().Title">
-
-    <div class="description">
-      <h3>Plot</h3>
-      <p>{{ selectedMovieDetails().Plot }}</p>
-    </div>
-
-    <div class="credits">
-      <p><strong>Director:</strong> {{ selectedMovieDetails().Director }}</p>
-      <p><strong>Actors:</strong> {{ selectedMovieDetails().Actors }}</p>
-      <p><strong>Awards:</strong> {{ selectedMovieDetails().Awards }}</p>
-    </div>
-
-    <div class="scores">
-      <p><strong>IMDb Rating:</strong> ⭐ {{ selectedMovieDetails().imdbRating }}</p>
-      <p><strong>Box Office:</strong> {{ selectedMovieDetails().BoxOffice }}</p>
-    </div>
+<header class="details-header">
+  <div class="header-container">
+    <button class="back-link" (click)="onBack()">
+      <span class="material-icons">arrow_back</span>
+      Back to Movies
+    </button>
+    <span class="logo">ReelObsessed</span>
   </div>
+</header>
+
+@if (selectedMovieDetails()) {
+  <main class="details-content">
+    <section class="movie-card">
+      <div class="poster-side">
+        <img [src]="selectedMovieDetails().Poster !== 'N/A' ? selectedMovieDetails().Poster : 'assets/placeholder.png'" [alt]="selectedMovieDetails().Title">
+      </div>
+      <div class="info-side">
+        <h1 class="movie-title">{{ selectedMovieDetails().Title }}</h1>
+        
+        <div class="tags-row">
+          <span class="tag">{{ selectedMovieDetails().Year }}</span>
+          <span class="tag">{{ selectedMovieDetails().Genre }}</span>
+          <span class="tag">{{ selectedMovieDetails().Runtime }}</span>
+        </div>
+
+        <div class="rating-row">
+          <div class="stars">
+            @for(star of [1,2,3,4,5]; track star) {
+              <span class="material-icons star-icon">star</span>
+            }
+          </div>
+          <span class="rating-text">{{ selectedMovieDetails().imdbRating }} / 10.0</span>
+        </div>
+
+        <div class="plot-section">
+          <h3>SYNOPSIS</h3>
+          <p>{{ selectedMovieDetails().Plot }}</p>
+        </div>
+
+        <div class="cta-row">
+          <button class="add-watchlist-btn">
+            <span class="material-icons">add</span>
+            Add to Watchlist
+          </button>
+          <button class="icon-btn">
+            <span class="material-icons">favorite_border</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <div class="reviews-header">
+        <h2>Audience Reviews</h2>
+        <button class="see-all-btn">See all <span class="material-icons">chevron_right</span></button>
+      </div>
+
+      <div class="reviews-scroll">
+        <div class="review-card">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">JD</div>
+            <div class="reviewer-name">
+              <strong>Julianne Devis</strong>
+              <div class="stars-mini">
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">"A breathtaking exploration of solitude. The cinematography alone is worth the price of admission."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">MK</div>
+            <div class="reviewer-name">
+              <strong>Marcus Kane</strong>
+              <div class="stars-mini">
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">"Slow burn, but incredibly rewarding. The score stays with you long after the credits roll."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">EL</div>
+            <div class="reviewer-name">
+              <strong>Elena L.</strong>
+              <div class="stars-mini">
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">"Pure cinema. It reminded me why I fell in love with indie films in the first place."</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-info">
+      <p>© 2024 ReelObsessed Arthouse. All rights reserved.</p>
+    </footer>
+  </main>
 } @else {
   <div class="loading">
-    <p>Loading the LEGO details...</p>
+    <p>Loading the details...</p>
   </div>
 }
-
-<button (click)="onBack()"> Back</button>

@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component , inject, signal } from '@angular/core';
 import { MovieService } from '../../services/movie-service';
 import {Router} from '@angular/router'
 @Component({
   selector: 'app-movie-details',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss',
 })
@@ -13,6 +14,7 @@ export class MovieDetails {
   selectedMovieDetails =signal<any>("");
   ngOnInit() {
   const movieData = this.movieService.selectedMovieData();
+  if (movieData && movieData.imdbID) {
     this.movieService.getMovieById(movieData.imdbID).subscribe({
       next: (res) => {
         console.log('3. API Response Received:', res);
@@ -21,8 +23,7 @@ export class MovieDetails {
       },
       error: (err) => console.error('API Error:', err),
     });
-
-    console.log('2. Request sent, waiting for response...');
+  }
   }
 
   onBack(){

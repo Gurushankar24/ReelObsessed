@@ -1,21 +1,69 @@
-   <div class="search-header">
-  <input type="text" [(ngModel)]="searchedMovie" placeholder="Search movies...">
-  <button (click)="Onsearch()">Search</button>
-  @if(apiMoviesList().length > 0) {
-    <span>Found: {{ movieCount() }} results</span>
-  }
-</div>
-
-<div class="movie-grid">
-  @for(item of apiMoviesList(); track $index) {
-    <div class="movie-card" (click)="onClick(item)">
-      <div class="poster-container">
-        <img [src]="item.Poster !== 'N/A' ? item.Poster : 'assets/placeholder.png'">
-      </div>
-      <div class="movie-info">
-        <h3>{{ item.Title }}</h3>
-        <p>{{ item.Year }} • {{ item.Type }}</p>
-      </div>
+<header class="sticky-header">
+  <div class="header-container">
+    <div class="logo-group">
+      <span class="logo">ReelObsessed</span>
     </div>
+    <div class="nav-group">
+      <button class="watchlist-btn">
+        <span class="material-icons">bookmark_border</span>
+        Watchlist
+      </button>
+      <div class="profile-circle"></div>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <section class="hero-section">
+    <h2>What are we obsessing over tssssonight?</h2>
+    <p class="hero-subtitle">"Search 500,000+ films. No judgement. (Okay, maybe a little.)"</p>
+    <p class="hero-tagline">BECAUSE ONCE IS NEVER ENOUGH</p>
+  </section>
+
+  <div class="search-container">
+    <div class="search-bar">
+      <span class="material-icons search-icon">search</span>
+      <input type="text" [(ngModel)]="searchedMovie" placeholder="Batman" (keyup.enter)="Onsearch()">
+      <button class="find-btn" (click)="Onsearch()">Find It</button>
+    </div>
+  </div>
+
+  @if(apiMoviesList().length > 0) {
+    <section class="results-section">
+      <h3 class="results-count">Found {{ movieCount() }} results for {{ searchedMovie }}</h3>
+      
+      <div class="movie-grid">
+        @for(item of apiMoviesList(); track $index) {
+          <div class="movie-card" (click)="onClick(item)">
+            <div class="poster-container">
+              <img [src]="item.Poster !== 'N/A' ? item.Poster : 'assets/placeholder.png'" [alt]="item.Title">
+              <button class="add-btn">
+                <span class="material-icons">add</span>
+              </button>
+            </div>
+            <div class="movie-info">
+              <h4>{{ item.Title }}</h4>
+              <p>{{ item.Year }} • {{ item.Type | titlecase }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if(apiMoviesList().length) {
+        <div class="load-more-container">
+          <button class="load-more-btn" (click)="loadmore()">
+            Load More Results
+            <span class="material-icons">expand_more</span>
+          </button>
+        </div>
+      }
+    </section>
   }
-</div>
+</main>
+
+<footer class="main-footer">
+  <div class="footer-content">
+    <h3 class="logo">ReelObsessed</h3>
+    <p>© 2024 Because once is never enough. No judgement, really.</p>
+  </div>
+</footer>

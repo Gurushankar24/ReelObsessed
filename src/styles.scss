@@ -1,24 +1,41 @@
-// :root {
-//   --primary-red: #e50914; /* Netflix Red */
-//   --bg-dark: #141414;     /* Deep Black/Gray */
-//   --card-bg: #1f1f1f;
-//   --text-main: #ffffff;
-//   --text-muted: #b3b3b3;
-// }
+:root {
+  --bg-color: #CF9FFF;
+  --text-primary: #5C4A32;
+  --text-secondary: rgba(92, 74, 50, 0.8);
+  --card-bg: #FDFAF6;
+  --accent-color: #6D2737;
+  --search-bar-bg: #C4B9A8;
+  --white: #FFFFFF;
+  --gray-muted: #64748B;
+  --tag-bg: #E2E8F0;
+  --tag-text: #475569;
+  --review-card-bg: #F8F6F6;
+  --review-accent: rgba(109, 39, 55, 0.1);
+}
 
-// body {
-//   background-color: var(--bg-dark);
-//   color: var(--text-main);
-//   font-family: 'Inter', sans-serif;
-//   margin: 0;
-// }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-// *{
-//     background-color: violet;
-// }
-
-// src/styles.scss
 body {
-  background-color: #f0f0f0;
-  padding: 40px;
+  background-color: var(--bg-color);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+h1, h2, .logo {
+  font-family: 'Playfair Display', serif;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+input {
+  font-family: 'Inter', sans-serif;
 }

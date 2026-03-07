@@ -7,31 +7,31 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-page',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
 })
 export class SearchPage {
   searchedMovie: string = '';
   private movieService = inject(MovieService);
-  private router = inject(Router)
+  private router = inject(Router);
   apiMoviesList = signal<any[]>([]);
+  currentPage = signal(1);
   movieCount = signal('');
-  selectedMovieDetails = signal('')
   ngOnInit() {
-    if(this.movieService.lastSearchQuery()){
+    if (this.movieService.lastSearchQuery()) {
       this.searchedMovie = this.movieService.lastSearchQuery();
       this.Onsearch();
-    }
-    else{
-      this.searchedMovie="";
+    } else {
+      this.searchedMovie = '';
     }
   }
   Onsearch() {
     this.movieService.lastSearchQuery.set(this.searchedMovie);
     console.log(this.searchedMovie);
-    this.movieService.searchMovies(this.searchedMovie).subscribe(
+    this.movieService.searchMovies(this.searchedMovie,1).subscribe(
       (res) => {
+        this.currentPage.set(1);
         console.log(res);
         // this.apiMoviesList = res.Search;
         // this.movieCount = res.totalResults
@@ -45,9 +45,18 @@ export class SearchPage {
     );
   }
 
-onClick(data: any) {
-  console.log("1. Clicked movie ID:", data.imdbID);
-  this.movieService.selectedMovieData.set(data);
-  this.router.navigate(['/movie-details'])
+  onClick(data: any) {
+    console.log('1. Clicked movie ID:', data.imdbID);
+    this.movieService.selectedMovieData.set(data);
+    this.router.navigate(['/movie-details']);
+  }
+
+  loadmore() {
+  this.currentPage.update((page) => page + 1);
+
+  this.movieService.searchMovies(this.searchedMovie , this.currentPage()).subscribe((res)=>{
+    this.apiMoviesList.update((movies)=> [...movies,...res.Search])
+  })
+
+  }
 }
-} 

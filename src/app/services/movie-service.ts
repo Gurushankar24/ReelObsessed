@@ -14,7 +14,7 @@ export class MovieService {
   http = inject(HttpClient);
 
 
-   searchMovies( query : string){
+   searchMovies( query : string, page: number){
     const url = this.baseUrl + `?s=${query}&apikey=${this.apiKey}`
     return this.http.get<any>(url)
    }
