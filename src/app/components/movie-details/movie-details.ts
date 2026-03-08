@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component , inject, signal } from '@angular/core';
 import { MovieService } from '../../services/movie-service';
 import {Router} from '@angular/router'
+
+
 @Component({
   selector: 'app-movie-details',
   imports: [CommonModule],
@@ -30,4 +32,20 @@ export class MovieDetails {
     this.movieService.selectedMovieData.set(null);
     this.router.navigate(['/search'])
   }
+
+  OnlikedMovie(data:any){
+    console.log('hii iam likedmovies method')
+    const likedMovies = localStorage.getItem('likedMovies')
+    const currentList = likedMovies ? JSON.parse(likedMovies) : []
+   currentList.push({
+      title: data.Title,
+      year: data.Year,
+      poster : data.Poster,
+      Released : data.Released,
+    });  
+          
+    localStorage.setItem('likedMovies', JSON.stringify(currentList))
+  }
+ 
+  
 }

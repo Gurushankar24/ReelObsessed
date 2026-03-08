@@ -10,12 +10,14 @@ export class MovieService {
   private baseUrl = 'http://www.omdbapi.com'
   selectedMovieData =signal<any>('');
   lastSearchQuery = signal<string>('');
+  isloading =signal<boolean>(false)
 
   http = inject(HttpClient);
 
 
    searchMovies( query : string, page: number){
-    const url = this.baseUrl + `?s=${query}&apikey=${this.apiKey}`
+  const url = this.baseUrl + `?s=${query}&page=${page}&apikey=${this.apiKey}`
+//                                       👆 just add this
     return this.http.get<any>(url)
    }
 

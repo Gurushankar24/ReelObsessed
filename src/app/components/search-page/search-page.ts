@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie-service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import {SpinnerComponent  } from '../spinner/spinner';
+import { SpinnerComponent } from '../spinner/spinner';
+
 
 @Component({
   selector: 'app-search-page',
-  imports: [FormsModule, CommonModule, SpinnerComponent],
+  imports: [FormsModule, CommonModule,SpinnerComponent],
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
 })
@@ -21,7 +21,7 @@ export class SearchPage {
   apiMoviesList = signal<any[]>([]);
   currentPage = signal(1);
   movieCount = signal('');
-  isLoading = signal(false);
+  
   ngOnInit() {
     if (this.movieService.lastSearchQuery()) {
       this.searchedMovie = this.movieService.lastSearchQuery();
@@ -31,7 +31,9 @@ export class SearchPage {
     }
   }
   Onsearch() {
-    this.isLoading.set(true); 
+    // this.isLoading.set(true); 
+    this.movieService.isloading.set(true);
+    console.log(this.movieService.isloading())
     this.movieService.lastSearchQuery.set(this.searchedMovie);
     console.log(this.searchedMovie);
     this.movieService.searchMovies(this.searchedMovie, 1).subscribe(
@@ -50,18 +52,21 @@ export class SearchPage {
         console.log(unique)
         this.apiMoviesList.set(unique)
         this.movieCount.set(res.totalResults);
-        this.isLoading.set(true);
+      //  this.isLoading.set(true);
         console.log(this.apiMoviesList);
-         this.isLoading.set(false);
+       this.movieService.isloading.set(false);
+       console.log(this.movieService.isloading())
       },
       (err) => {
-        console.log(err);        
+        console.log(err);   
+        this.movieService.isloading.set(false);
+       console.log(this.movieService.isloading())     
       },
     );
   }
 
   onClick(data: any) {
-    this.isLoading.set(true);
+    this.movieService.isloading.set(true);
     console.log('1. Clicked movie ID:', data.imdbID);
     this.movieService.selectedMovieData.set(data);
     this.router.navigate(['/movie-details']);

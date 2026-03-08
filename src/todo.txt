@@ -1,0 +1,13 @@
+need to update the skill placeholder in the details page
+
+complete the liked page
+
+start the wishlist component 
+
+update the ui
+
+increase the infor text in the details component
+
+improve ui maybe?
+
+looks upto the project_analyst for next updates 

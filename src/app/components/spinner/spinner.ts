@@ -1,12 +1,12 @@
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { MovieService } from '../../services/movie-service';
 @Component({
   selector: 'app-spinner',
   standalone: true,
   imports: [CommonModule],
   template: `
-    @if (isLoading()) {
+    @if (movieService.isloading()) {
       <div class="spinner-overlay">
         <div class="spinner-content">
 
@@ -185,6 +185,6 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class SpinnerComponent {
-  isLoading = input.required<boolean>();
+  public movieService =inject(MovieService)
   stripes = Array(6).fill(0);
 }

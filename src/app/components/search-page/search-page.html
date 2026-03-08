@@ -1,4 +1,4 @@
-<app-spinner [isLoading]="isLoading()" />
+<app-spinner></app-spinner>
 <header class="sticky-header">
   <div class="header-container">
     <div class="logo-group">
@@ -39,13 +39,8 @@
 } -->
 
 <!-- show real movies when done -->
-@if (!isLoading()) {
-  <div class="movies-grid">
-    @for (movie of apiMoviesList(); track movie.imdbID) {
-      <!-- your existing movie card here -->
-    }
-  </div>
-}
+
+
   @if(apiMoviesList().length > 0) {
     <section class="results-section">
       <h3 class="results-count">Found {{ movieCount() }} results for {{ searchedMovie }}</h3>

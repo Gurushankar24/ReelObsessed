@@ -1,3 +1,4 @@
+
 <header class="details-header">
   <div class="header-container">
     <button class="back-link" (click)="onBack()">
@@ -43,7 +44,7 @@
             Add to Watchlist
           </button>
           <button class="icon-btn">
-            <span class="material-icons">favorite_border</span>
+            <span class="material-icons" (click)="OnlikedMovie(selectedMovieDetails())">favorite_border</span>
           </button>
         </div>
       </div>
