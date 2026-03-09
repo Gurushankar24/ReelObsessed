@@ -10,6 +10,6 @@ export class Liked {
  
    ngOnInit(){
    const existingMovies = localStorage.getItem("likedMovies")
-  
-   }
+   console.log(existingMovies)
+   } 
 }
