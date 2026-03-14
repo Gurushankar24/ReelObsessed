@@ -1,1 +1,21 @@
+<button (click)="OnBack()">Back</button>
 
+<div class="movie-grid">
+  @for (existingmovies of existingMovies(); track $index) {
+    <div class="movie-card">
+      <div class="poster-container">
+        <img
+          [src]="existingmovies.Poster !== 'N/A' ? existingmovies.Poster : 'assets/placeholder.png'"
+          [alt]="existingmovies.Title"
+        />
+        <button class="add-btn">
+          <span class="material-icons">add</span>
+        </button>
+      </div>
+      <div class="movie-info">
+        <h4>{{ existingmovies.Title }}</h4>
+        <p>{{ existingmovies.Year }} • {{ existingmovies.Type }}</p>
+      </div>
+    </div>
+  }
+</div>

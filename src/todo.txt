@@ -11,3 +11,11 @@ increase the infor text in the details component
 improve ui maybe?
 
 looks upto the project_analyst for next updates 
+
+
+currently the movie search is it got two main pages search and movie details when u search a movie called batman it hit the omdb api and show the first 10 result and iam showing in a good card i think then if  u click the card it leads to the movie details page where i hit another api to get the details to show and when the user liked iam currently working on liked section which stores the object in the local storage and shows that in the liked section and created a spinner component the styling mostly done by ai and the functionality i wrote that myself that good
+
+upcomming things are wishlist like if they create one romantic i am gonna add that in the array of object like that and the review section is place holder the api gives revies need to loop around that to show them and need to implememtn toastr messages when they hit the api or if error happens 
+
+i love to include is sorting i dont know how thhat gonna work and user can add ratings themself too and reviews which is easy like we can push the revies and rating in the existing array of object and home or popular page but i dont know is there api in the omdb for that 
+these are my ideas and detailed things what i done and gonna do or can i do

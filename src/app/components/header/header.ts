@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from "@angular/router"
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from "@angular/router"
 
 @Component({
   selector: 'app-header',
@@ -8,6 +8,9 @@ import { RouterOutlet } from "@angular/router"
   styleUrl: './header.scss',
 })
 export class Header {
-
+  private router = inject(Router)
+  ToLiked(){
+    this.router.navigate(['/liked'])
+  }
 }
  
