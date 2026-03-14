@@ -263,3 +263,12 @@
     .poster-side { flex: none; width: 100%; }
   }
 }
+
+.liked {
+  color: #ff1493 !important; // forces pink over Material Icons default
+}
+
+.unliked {
+  color: #000000;
+  opacity: 0.4;
+}

@@ -14,6 +14,7 @@ export class MovieDetails {
   private movieService = inject(MovieService);
   private router = inject(Router);
   selectedMovieDetails = signal<any>('');
+  isliked = signal<boolean>(false);
   ngOnInit() {
     const movieData = this.movieService.selectedMovieData();
     if (movieData && movieData.imdbID) {
@@ -21,9 +22,18 @@ export class MovieDetails {
         next: (res) => {
           console.log('3. API Response Received:', res);
           this.selectedMovieDetails.set(res);
+          const temp = localStorage.getItem('likedMovies');
+          const likedMovies = temp ? JSON.parse(temp) : [];
+          const alreadyLiked = likedMovies.some((movie: any) => {
+            return this.selectedMovieDetails().imdbID === movie.imdbID;
+          });
+          this.isliked.set(alreadyLiked);
           console.log(this.selectedMovieDetails());
         },
-        error: (err) => console.error('API Error:', err),
+        error: (err) => {
+          console.error('API Error:', err);
+          this.isliked.set(false);
+        },
       });
     }
   }
@@ -35,16 +45,23 @@ export class MovieDetails {
 
   OnlikedMovie(data: any) {
     const likedMovies = localStorage.getItem('likedMovies');
-    const currentList = likedMovies ? JSON.parse(likedMovies) : [];
-    const isMoviethere = currentList.some((movie: any) => {
-      return movie.imdbID === data.imdbID;
-    });
-    console.log(isMoviethere);
-    if (!isMoviethere) {
+    let currentList = likedMovies ? JSON.parse(likedMovies) : [];
+    const index = currentList.findIndex((movie: any) => movie.imdbID === data.imdbID);
+    
+    if (index === -1) {
       currentList.push(data);
+      this.isliked.set(true);
     } else {
-      console.log('movie already present');
+      currentList.splice(index, 1);
+      this.isliked.set(false);
     }
     localStorage.setItem('likedMovies', JSON.stringify(currentList));
+  }
+
+  OnWishlist(){
+   const alreadywishlist = localStorage.getItem("wishlist")
+  //  const name = alreadywishlist ? JSON.parse(alreadywishlist) : []
+
+   console.log(name)
   }
 }

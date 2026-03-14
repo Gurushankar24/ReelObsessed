@@ -1,4 +1,3 @@
-
 <header class="details-header">
   <div class="header-container">
     <button class="back-link" (click)="onBack()">
@@ -13,11 +12,18 @@
   <main class="details-content">
     <section class="movie-card">
       <div class="poster-side">
-        <img [src]="selectedMovieDetails().Poster !== 'N/A' ? selectedMovieDetails().Poster : 'assets/placeholder.png'" [alt]="selectedMovieDetails().Title">
+        <img
+          [src]="
+            selectedMovieDetails().Poster !== 'N/A'
+              ? selectedMovieDetails().Poster
+              : 'assets/placeholder.png'
+          "
+          [alt]="selectedMovieDetails().Title"
+        />
       </div>
       <div class="info-side">
         <h1 class="movie-title">{{ selectedMovieDetails().Title }}</h1>
-        
+
         <div class="tags-row">
           <span class="tag">{{ selectedMovieDetails().Year }}</span>
           <span class="tag">{{ selectedMovieDetails().Genre }}</span>
@@ -26,7 +32,7 @@
 
         <div class="rating-row">
           <div class="stars">
-            @for(star of [1,2,3,4,5]; track star) {
+            @for (star of [1, 2, 3, 4, 5]; track star) {
               <span class="material-icons star-icon">star</span>
             }
           </div>
@@ -39,12 +45,17 @@
         </div>
 
         <div class="cta-row">
-          <button class="add-watchlist-btn">
+          <button class="add-watchlist-btn" (click)="OnWishlist()">
             <span class="material-icons">add</span>
             Add to Watchlist
           </button>
           <button class="icon-btn">
-            <span class="material-icons" (click)="OnlikedMovie(selectedMovieDetails())">favorite_border</span>
+            <span
+              class="material-icons"
+              (click)="OnlikedMovie(selectedMovieDetails())"
+              [ngClass]="{ liked: isliked(), unliked: !isliked() }"
+              >{{ isliked() ? 'favorite' : 'favorite_border' }}</span
+            >
           </button>
         </div>
       </div>
@@ -53,60 +64,20 @@
     <section class="reviews-section">
       <div class="reviews-header">
         <h2>Audience Reviews</h2>
-        <button class="see-all-btn">See all <span class="material-icons">chevron_right</span></button>
+        <button class="see-all-btn">
+          See all <span class="material-icons">chevron_right</span>
+        </button>
       </div>
 
       <div class="reviews-scroll">
-        <div class="review-card">
-          <div class="reviewer-info">
-            <div class="reviewer-avatar">JD</div>
+        @for (item of selectedMovieDetails().Ratings; track $index) {
+          <div class="review-card">
             <div class="reviewer-name">
-              <strong>Julianne Devis</strong>
-              <div class="stars-mini">
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-              </div>
+              <strong>{{ item.Source }} - </strong>
+              <strong>{{ item.Value }}</strong>
             </div>
           </div>
-          <p class="review-text">"A breathtaking exploration of solitude. The cinematography alone is worth the price of admission."</p>
-        </div>
-
-        <div class="review-card">
-          <div class="reviewer-info">
-            <div class="reviewer-avatar">MK</div>
-            <div class="reviewer-name">
-              <strong>Marcus Kane</strong>
-              <div class="stars-mini">
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-              </div>
-            </div>
-          </div>
-          <p class="review-text">"Slow burn, but incredibly rewarding. The score stays with you long after the credits roll."</p>
-        </div>
-
-        <div class="review-card">
-          <div class="reviewer-info">
-            <div class="reviewer-avatar">EL</div>
-            <div class="reviewer-name">
-              <strong>Elena L.</strong>
-              <div class="stars-mini">
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-                <span class="material-icons">star</span>
-              </div>
-            </div>
-          </div>
-          <p class="review-text">"Pure cinema. It reminded me why I fell in love with indie films in the first place."</p>
-        </div>
+        }
       </div>
     </section>
 

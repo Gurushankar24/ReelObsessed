@@ -1,16 +1,16 @@
-need to update the skill placeholder in the details page
+//need to update the skill placeholder in the details page//
 
-complete the liked page
+//complete the liked page//
 
 start the wishlist component 
 
 update the ui
 
-increase the infor text in the details component
+//increase the infor text in the details component//
 
 improve ui maybe?
 
-looks upto the project_analyst for next updates 
+looks upto the project_analyst for next updates     
 
 
 currently the movie search is it got two main pages search and movie details when u search a movie called batman it hit the omdb api and show the first 10 result and iam showing in a good card i think then if  u click the card it leads to the movie details page where i hit another api to get the details to show and when the user liked iam currently working on liked section which stores the object in the local storage and shows that in the liked section and created a spinner component the styling mostly done by ai and the functionality i wrote that myself that good
