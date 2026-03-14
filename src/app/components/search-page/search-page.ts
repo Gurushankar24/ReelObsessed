@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie-service';
 import { Router } from '@angular/router';
 import { SpinnerComponent } from '../spinner/spinner';
+import { Header } from '../header/header';
 
 
 @Component({
   selector: 'app-search-page',
-  imports: [FormsModule, CommonModule,SpinnerComponent],
+  imports: [FormsModule, CommonModule,SpinnerComponent,Header],
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
 })

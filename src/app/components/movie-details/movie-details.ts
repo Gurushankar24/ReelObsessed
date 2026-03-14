@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component , inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MovieService } from '../../services/movie-service';
-import {Router} from '@angular/router'
-
+import { Router } from '@angular/router';
+import { findIndex } from 'rxjs';
 
 @Component({
   selector: 'app-movie-details',
@@ -13,39 +13,38 @@ import {Router} from '@angular/router'
 export class MovieDetails {
   private movieService = inject(MovieService);
   private router = inject(Router);
-  selectedMovieDetails =signal<any>("");
+  selectedMovieDetails = signal<any>('');
   ngOnInit() {
-  const movieData = this.movieService.selectedMovieData();
-  if (movieData && movieData.imdbID) {
-    this.movieService.getMovieById(movieData.imdbID).subscribe({
-      next: (res) => {
-        console.log('3. API Response Received:', res);
-        this.selectedMovieDetails.set(res)
-        console.log(this.selectedMovieDetails());
-      },
-      error: (err) => console.error('API Error:', err),
-    });
-  }
+    const movieData = this.movieService.selectedMovieData();
+    if (movieData && movieData.imdbID) {
+      this.movieService.getMovieById(movieData.imdbID).subscribe({
+        next: (res) => {
+          console.log('3. API Response Received:', res);
+          this.selectedMovieDetails.set(res);
+          console.log(this.selectedMovieDetails());
+        },
+        error: (err) => console.error('API Error:', err),
+      });
+    }
   }
 
-  onBack(){
+  onBack() {
     this.movieService.selectedMovieData.set(null);
-    this.router.navigate(['/search'])
+    this.router.navigate(['/search']);
   }
 
-  OnlikedMovie(data:any){
-    console.log('hii iam likedmovies method')
-    const likedMovies = localStorage.getItem('likedMovies')
-    const currentList = likedMovies ? JSON.parse(likedMovies) : []
-   currentList.push({
-      title: data.Title,
-      year: data.Year,
-      poster : data.Poster,
-      Released : data.Released,
-    });  
-          
-    localStorage.setItem('likedMovies', JSON.stringify(currentList))
+  OnlikedMovie(data: any) {
+    const likedMovies = localStorage.getItem('likedMovies');
+    const currentList = likedMovies ? JSON.parse(likedMovies) : [];
+    const isMoviethere = currentList.some((movie: any) => {
+      return movie.imdbID === data.imdbID;
+    });
+    console.log(isMoviethere);
+    if (!isMoviethere) {
+      currentList.push(data);
+    } else {
+      console.log('movie already present');
+    }
+    localStorage.setItem('likedMovies', JSON.stringify(currentList));
   }
- 
-  
 }
