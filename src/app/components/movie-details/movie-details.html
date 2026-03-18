@@ -45,10 +45,70 @@
         </div>
 
         <div class="cta-row">
-          <button class="add-watchlist-btn" (click)="OnWishlist()">
-            <span class="material-icons">add</span>
-            Add to Watchlist
-          </button>
+          <div class="watchlist-wrapper">
+            <button class="add-watchlist-btn" (click)="OnWishlist()">
+              <span class="material-icons">bookmark_add</span>
+              Add to Wishlist
+            </button>
+
+            @if (showWishList) {
+              <div class="wishlist-popover">
+                <div class="popover-header">
+                  <h3>My Wishlists</h3>
+                  <button class="close-mini-btn" (click)="OnWishlist()">
+                    <span class="material-icons">close</span>
+                  </button>
+                </div>
+
+                <div class="wishlist-items">
+                  @if (wishlistnames.length > 0) {
+                    @for (item of wishlistnames; track item) {
+                      <div class="wishlist-item-container">
+                        <button class="wishlist-item" (click)="addawishlist(item)">
+                          <div class="item-info">
+                            <span class="material-icons">folder</span>
+                            <div class="name-group">
+                              <span class="name">{{ item }}</span>
+                              <span class="count">{{ wishlists[item]?.length || 0 }} movies</span>
+                            </div>
+                          </div>
+                          <span class="material-icons add-icon">add</span>
+                        </button>
+                        
+                        @if (wishlists[item]?.length > 0) {
+                          <div class="movie-previews">
+                            @for (movie of wishlists[item]; track movie.imdbID) {
+                              <img [src]="movie.Poster" [alt]="movie.Title" class="mini-poster" />
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  } @else {
+                    <div class="empty-state">
+                      <span class="material-icons">auto_awesome_motion</span>
+                      <p>No wishlists yet</p>
+                    </div>
+                  }
+                </div>
+
+                <div class="new-wishlist-area">
+                  <div class="input-group">
+                    <input 
+                      type="text" 
+                      [(ngModel)]="newWishListName" 
+                      placeholder="New wishlist name..."
+                      (keyup.enter)="addawishnewlist()"
+                    >
+                    <button class="create-btn" (click)="addawishnewlist()" [disabled]="!newWishListName">
+                      <span class="material-icons">add_circle</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
           <button class="icon-btn">
             <span
               class="material-icons"

@@ -1,0 +1,59 @@
+<header class="wishlist-header">
+  <div class="header-container">
+    <button class="back-link" (click)="onBack()">
+      <span class="material-icons">arrow_back</span>
+      Back to Search
+    </button>
+    <span class="logo">ReelObsessed</span>
+  </div>
+</header>
+
+<main class="wishlist-content">
+  <h2 class="page-title">My Wishlists</h2>
+
+  @if (wishlistNames.length > 0) {
+    @for (listName of wishlistNames; track listName) {
+      <section class="wishlist-section">
+        <h3 class="list-title">
+          <span class="material-icons">folder</span>
+          {{ listName }}
+          <span class="movie-count">({{ wishlists()[listName]?.length || 0 }} movies)</span>
+        </h3>
+
+        <div class="movie-grid">
+          @for (movie of wishlists()[listName]; track movie.imdbID) {
+            <div class="movie-card">
+              <div class="poster-container" (click)="onMovieClick(movie)">
+                <img
+                  [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/placeholder.png'"
+                  [alt]="movie.Title"
+                />
+                <button 
+                  class="remove-btn" 
+                  (click)="$event.stopPropagation(); removeMovie(listName, movie.imdbID)"
+                  title="Remove from wishlist"
+                >
+                  <span class="material-icons">close</span>
+                </button>
+              </div>
+              <div class="movie-info" (click)="onMovieClick(movie)">
+                <h4>{{ movie.Title }}</h4>
+                <p>{{ movie.Year }} • {{ movie.Type | titlecase }}</p>
+              </div>
+            </div>
+          } @empty {
+            <div class="empty-list">
+              <p>No movies in this wishlist yet.</p>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  } @else {
+    <div class="empty-state">
+      <span class="material-icons">auto_awesome_motion</span>
+      <p>You haven't created any wishlists yet.</p>
+      <button class="primary-btn" (click)="onBack()">Explore Movies</button>
+    </div>
+  }
+</main>

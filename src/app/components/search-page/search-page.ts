@@ -5,6 +5,7 @@ import { MovieService } from '../../services/movie-service';
 import { Router } from '@angular/router';
 import { SpinnerComponent } from '../spinner/spinner';
 import { Header } from '../header/header';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class SearchPage {
   skeletons = Array(8).fill(0); // shows 8 skeleton cards
   private movieService = inject(MovieService);
   private router = inject(Router);
+  private toastr = inject(ToastrService);
   apiMoviesList = signal<any[]>([]);
   currentPage = signal(1);
   movieCount = signal('');
@@ -32,43 +34,45 @@ export class SearchPage {
     }
   }
   Onsearch() {
-    // this.isLoading.set(true); 
     this.movieService.isloading.set(true);
-    console.log(this.movieService.isloading())
     this.movieService.lastSearchQuery.set(this.searchedMovie);
-    console.log(this.searchedMovie);
+    
     this.movieService.searchMovies(this.searchedMovie, 1).subscribe(
       (res) => {
         this.currentPage.set(1);
-        console.log(res);
-       
-        const unique = res.Search.filter((currentVal: any, index: number, wholeArray: any) => {
-          return (
-            index ===
-            wholeArray.findIndex((x:any) => {
-              return currentVal.imdbID === x.imdbID; // capital D both sides
-            })
-          );
-        });
-        console.log(unique)
-        this.apiMoviesList.set(unique)
-        this.movieCount.set(res.totalResults);
-      //  this.isLoading.set(true);
-        console.log(this.apiMoviesList);
-       this.movieService.isloading.set(false);
-       console.log(this.movieService.isloading())
+        
+        if (res.Response === 'False') {
+          this.apiMoviesList.set([]);
+          this.movieCount.set('0');
+          this.toastr.warning(res.Error || 'No movies found');
+          this.movieService.isloading.set(false);
+          return;
+        }
+
+        if (res.Search) {
+          const unique = res.Search.filter((currentVal: any, index: number, wholeArray: any) => {
+            return (
+              index ===
+              wholeArray.findIndex((x: any) => {
+                return currentVal.imdbID === x.imdbID;
+              })
+            );
+          });
+          this.apiMoviesList.set(unique);
+          this.movieCount.set(res.totalResults);
+        }
+        
+        this.movieService.isloading.set(false);
       },
       (err) => {
-        console.log(err);   
         this.movieService.isloading.set(false);
-       console.log(this.movieService.isloading())     
+        this.toastr.error('Something went wrong, try again');
       },
     );
   }
 
   onClick(data: any) {
     this.movieService.isloading.set(true);
-    console.log('1. Clicked movie ID:', data.imdbID);
     this.movieService.selectedMovieData.set(data);
     this.router.navigate(['/movie-details']);
   }
@@ -76,8 +80,17 @@ export class SearchPage {
   loadmore() {
     this.currentPage.update((page) => page + 1);
 
-    this.movieService.searchMovies(this.searchedMovie, this.currentPage()).subscribe((res) => {
-      this.apiMoviesList.update((movies) => [...movies, ...res.Search]);
-    });
+    this.movieService.searchMovies(this.searchedMovie, this.currentPage()).subscribe(
+      (res) => {
+        if (res.Response === 'True' && res.Search) {
+          this.apiMoviesList.update((movies) => [...movies, ...res.Search]);
+        } else {
+          this.toastr.info(res.Error || 'No more movies found');
+        }
+      },
+      (err) => {
+        this.toastr.error('Something went wrong, try again');
+      }
+    );
   }
 }

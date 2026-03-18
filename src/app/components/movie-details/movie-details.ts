@@ -2,40 +2,48 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { MovieService } from '../../services/movie-service';
 import { Router } from '@angular/router';
-import { findIndex } from 'rxjs';
+import { FormsModule } from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-movie-details',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss',
 })
 export class MovieDetails {
   private movieService = inject(MovieService);
   private router = inject(Router);
+  private toastr = inject(ToastrService);
   selectedMovieDetails = signal<any>('');
   isliked = signal<boolean>(false);
+  wishlists: any = {};
+  showWishList = false;
+  newWishListName : string =""
+
   ngOnInit() {
     const movieData = this.movieService.selectedMovieData();
     if (movieData && movieData.imdbID) {
       this.movieService.getMovieById(movieData.imdbID).subscribe({
         next: (res) => {
-          console.log('3. API Response Received:', res);
           this.selectedMovieDetails.set(res);
+          console.log(res)
           const temp = localStorage.getItem('likedMovies');
           const likedMovies = temp ? JSON.parse(temp) : [];
           const alreadyLiked = likedMovies.some((movie: any) => {
             return this.selectedMovieDetails().imdbID === movie.imdbID;
           });
           this.isliked.set(alreadyLiked);
-          console.log(this.selectedMovieDetails());
         },
         error: (err) => {
           console.error('API Error:', err);
           this.isliked.set(false);
+          this.toastr.error('Something went wrong, try again');
         },
       });
     }
+    const temp = localStorage.getItem('wishlists');
+    this.wishlists = temp ? JSON.parse(temp) : {};
   }
 
   onBack() {
@@ -44,24 +52,54 @@ export class MovieDetails {
   }
 
   OnlikedMovie(data: any) {
+    console.log(data)
     const likedMovies = localStorage.getItem('likedMovies');
     let currentList = likedMovies ? JSON.parse(likedMovies) : [];
     const index = currentList.findIndex((movie: any) => movie.imdbID === data.imdbID);
-    
+
     if (index === -1) {
       currentList.push(data);
       this.isliked.set(true);
+      this.toastr.success('Added to Liked! ❤️');
     } else {
       currentList.splice(index, 1);
       this.isliked.set(false);
+      this.toastr.info('Removed from Liked');
     }
     localStorage.setItem('likedMovies', JSON.stringify(currentList));
   }
 
-  OnWishlist(){
-   const alreadywishlist = localStorage.getItem("wishlist")
-  //  const name = alreadywishlist ? JSON.parse(alreadywishlist) : []
+  get wishlistnames() {
+    return Object.keys(this.wishlists);
+  }
 
-   console.log(name)
+  OnWishlist() {
+    this.showWishList = !this.showWishList;
+  }
+
+  addawishlist(item: any) {
+    const movie = this.selectedMovieDetails();
+    const list = this.wishlists[item] || [];
+    const alreadyInWishlist = list.some((m: any) => m.imdbID === movie.imdbID);
+
+    if (alreadyInWishlist) {
+      this.toastr.warning('Already in your Wishlist');
+      return;
+    }
+
+    // Immutive update to trigger Angular change detection for the previews
+    this.wishlists[item] = [...list, movie];
+    this.wishlists = { ...this.wishlists }; 
+    localStorage.setItem("wishlists", JSON.stringify(this.wishlists));
+    this.toastr.success('Saved to Wishlist! 🎬');
+  }
+
+  addawishnewlist(){
+    if (!this.newWishListName) return;
+    this.wishlists[this.newWishListName] = [];
+    this.wishlists = { ...this.wishlists }; 
+    localStorage.setItem("wishlists", JSON.stringify(this.wishlists));
+    this.newWishListName = "";
   }
 }
+ 

@@ -12,5 +12,8 @@ export class Header {
   ToLiked(){
     this.router.navigate(['/liked'])
   }
+  ToWatchlist(){
+    this.router.navigate(['/wishlist'])
+  }
 }
  

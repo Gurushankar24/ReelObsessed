@@ -1,0 +1,48 @@
+import { Component, signal, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { MovieService } from '../../services/movie-service';
+
+@Component({
+  selector: 'app-wishlist',
+  imports: [CommonModule],
+  templateUrl: './wishlist.html',
+  styleUrl: './wishlist.scss',
+})
+export class Wishlist {
+  wishlists = signal<any>({});
+  private router = inject(Router);
+  private toastr = inject(ToastrService);
+  private movieService = inject(MovieService);
+
+  ngOnInit() {
+    const temp = localStorage.getItem('wishlists');
+    this.wishlists.set(temp ? JSON.parse(temp) : {});
+  }
+
+  get wishlistNames() {
+    return Object.keys(this.wishlists());
+  }
+
+  onBack() {
+    this.router.navigate(['/search']);
+  }
+
+  removeMovie(listName: string, imdbID: string) {
+    const currentWishlists = { ...this.wishlists() };
+    if (currentWishlists[listName]) {
+      currentWishlists[listName] = currentWishlists[listName].filter(
+        (m: any) => m.imdbID !== imdbID
+      );
+      this.wishlists.set(currentWishlists);
+      localStorage.setItem('wishlists', JSON.stringify(currentWishlists));
+      this.toastr.info('Removed from Wishlist');
+    }
+  }
+
+  onMovieClick(movie: any) {
+    this.movieService.selectedMovieData.set(movie);
+    this.router.navigate(['/movie-details']);
+  }
+}

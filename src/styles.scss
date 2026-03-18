@@ -1,3 +1,5 @@
+@import 'ngx-toastr/toastr';
+
 :root {
   --bg-color: #CF9FFF;
   --text-primary: #5C4A32;
@@ -11,6 +13,86 @@
   --tag-text: #475569;
   --review-card-bg: #F8F6F6;
   --review-accent: rgba(109, 39, 55, 0.1);
+}
+
+/* Custom Toastr Styles */
+.ngx-toastr {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 16px 20px 16px 60px !important;
+  font-family: 'Inter', sans-serif !important;
+  opacity: 1 !important;
+  
+  &:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+.toast-container .ngx-toastr {
+  width: 320px !important;
+}
+
+.toast-success {
+  background-color: var(--accent-color) !important;
+  color: var(--white) !important;
+  background-image: none !important;
+  position: relative;
+  
+  &::before {
+    content: 'check_circle';
+    font-family: 'Material Icons';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+  }
+}
+
+.toast-error {
+  background-color: #d32f2f !important;
+  background-image: none !important;
+  
+  &::before {
+    content: 'error';
+    font-family: 'Material Icons';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+  }
+}
+
+.toast-info {
+  background-color: #1976d2 !important;
+  background-image: none !important;
+  
+  &::before {
+    content: 'info';
+    font-family: 'Material Icons';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+  }
+}
+
+.toast-warning {
+  background-color: #ffa000 !important;
+  color: #000 !important;
+  background-image: none !important;
+  
+  &::before {
+    content: 'warning';
+    font-family: 'Material Icons';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+  }
 }
 
 * {
