@@ -1,29 +1,28 @@
-<header class="wishlist-header">
+<header class="details-header">
   <div class="header-container">
     <button class="back-link" (click)="onBack()">
       <span class="material-icons">arrow_back</span>
       Back to Search
     </button>
-    <span class="logo">ReelObsessed</span>
   </div>
 </header>
 
 <main class="wishlist-content">
-  <h2 class="page-title">My Wishlists</h2>
-
   @if (wishlistNames.length > 0) {
     @for (listName of wishlistNames; track listName) {
-      <section class="wishlist-section">
-        <h3 class="list-title">
-          <span class="material-icons">folder</span>
-          {{ listName }}
-          <span class="movie-count">({{ wishlists()[listName]?.length || 0 }} movies)</span>
-        </h3>
+      <section class="wishlist-category-card">
+        <div class="category-header">
+          <div class="title-group">
+            <span class="material-icons">folder_open</span>
+            <h3>{{ listName }}</h3>
+          </div>
+          <span class="movie-count">{{ wishlists()[listName]?.length || 0 }} Movies</span>
+        </div>
 
         <div class="movie-grid">
           @for (movie of wishlists()[listName]; track movie.imdbID) {
-            <div class="movie-card">
-              <div class="poster-container" (click)="onMovieClick(movie)">
+            <div class="movie-card" (click)="onMovieClick(movie)">
+              <div class="poster-container">
                 <img
                   [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/placeholder.png'"
                   [alt]="movie.Title"
@@ -31,19 +30,22 @@
                 <button 
                   class="remove-btn" 
                   (click)="$event.stopPropagation(); removeMovie(listName, movie.imdbID)"
-                  title="Remove from wishlist"
                 >
                   <span class="material-icons">close</span>
                 </button>
               </div>
-              <div class="movie-info" (click)="onMovieClick(movie)">
+              <div class="movie-info">
                 <h4>{{ movie.Title }}</h4>
-                <p>{{ movie.Year }} • {{ movie.Type | titlecase }}</p>
+                <div class="meta">
+                  <span>{{ movie.Year }}</span>
+                  <span class="dot"></span>
+                  <span>{{ movie.Type | titlecase }}</span>
+                </div>
               </div>
             </div>
           } @empty {
             <div class="empty-list">
-              <p>No movies in this wishlist yet.</p>
+              <p>No movies in this category.</p>
             </div>
           }
         </div>
@@ -51,9 +53,15 @@
     }
   } @else {
     <div class="empty-state">
-      <span class="material-icons">auto_awesome_motion</span>
-      <p>You haven't created any wishlists yet.</p>
-      <button class="primary-btn" (click)="onBack()">Explore Movies</button>
+      <div class="icon-circle">
+        <span class="material-icons">auto_awesome_motion</span>
+      </div>
+      <h2>No wishlists yet.</h2>
+      <p>Start adding movies to your collection!</p>
+      <button class="primary-btn" (click)="onBack()">
+        <span class="material-icons">search</span>
+        Find Movies
+      </button>
     </div>
   }
 </main>

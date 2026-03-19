@@ -186,5 +186,5 @@ import { MovieService } from '../../services/movie-service';
 })
 export class SpinnerComponent {
   public movieService =inject(MovieService)
-  stripes = Array(6).fill(0);
+  stripes = Array.from({length: 6}, (_, i) => i + 1);
 }

@@ -2,16 +2,57 @@
   <div class="header-container">
     <button class="back-link" (click)="onBack()">
       <span class="material-icons">arrow_back</span>
-      Back to Movies
+      Back to Search
     </button>
-    <span class="logo">ReelObsessed</span>
   </div>
 </header>
 
-@if (selectedMovieDetails()) {
-  <main class="details-content">
-    <section class="movie-card">
+@if (isLoading()) {
+  <main class="details-content skeleton-wrapper">
+    <!-- Banner Placeholder -->
+    <div class="skeleton-banner shimmer"></div>
+
+    <section class="movie-card skeleton-card">
       <div class="poster-side">
+        <!-- Poster Placeholder -->
+        <div class="skeleton-poster shimmer"></div>
+      </div>
+      <div class="info-side">
+        <!-- Title Placeholder -->
+        <div class="skeleton-title shimmer"></div>
+
+        <!-- Tags Row Placeholder -->
+        <div class="skeleton-tags-row">
+          <div class="skeleton-tag shimmer"></div>
+          <div class="skeleton-tag shimmer"></div>
+          <div class="skeleton-tag shimmer"></div>
+        </div>
+
+        <!-- Rating Row Placeholder -->
+        <div class="skeleton-rating-row shimmer"></div>
+
+        <!-- Plot Placeholder -->
+        <div class="skeleton-plot">
+          <div class="skeleton-label shimmer"></div>
+          <div class="skeleton-line shimmer"></div>
+          <div class="skeleton-line shimmer"></div>
+          <div class="skeleton-line shimmer"></div>
+          <div class="skeleton-line shimmer" style="width: 60%"></div>
+        </div>
+
+        <!-- CTA Row Placeholder -->
+        <div class="skeleton-cta-row">
+          <div class="skeleton-btn shimmer"></div>
+          <div class="skeleton-icon-btn shimmer"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+} @else if (selectedMovieDetails()) {
+  <main class="details-content" @fadeAnimation>
+    <section class="movie-card">
+...
+
         <img
           [src]="
             selectedMovieDetails().Poster !== 'N/A'
@@ -20,7 +61,7 @@
           "
           [alt]="selectedMovieDetails().Title"
         />
-      </div>
+      
       <div class="info-side">
         <h1 class="movie-title">{{ selectedMovieDetails().Title }}</h1>
 
@@ -62,7 +103,7 @@
 
                 <div class="wishlist-items">
                   @if (wishlistnames.length > 0) {
-                    @for (item of wishlistnames; track item) {
+                   @for (item of wishlistnames; track $index){
                       <div class="wishlist-item-container">
                         <button class="wishlist-item" (click)="addawishlist(item)">
                           <div class="item-info">

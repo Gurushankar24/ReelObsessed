@@ -1,7 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { ToastService } from '../../services/toast.service';
 import { MovieService } from '../../services/movie-service';
 
 @Component({
@@ -13,7 +13,7 @@ import { MovieService } from '../../services/movie-service';
 export class Wishlist {
   wishlists = signal<any>({});
   private router = inject(Router);
-  private toastr = inject(ToastrService);
+  private toastService = inject(ToastService);
   private movieService = inject(MovieService);
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class Wishlist {
       );
       this.wishlists.set(currentWishlists);
       localStorage.setItem('wishlists', JSON.stringify(currentWishlists));
-      this.toastr.info('Removed from Wishlist');
+      this.toastService.info('Removed from Wishlist');
     }
   }
 

@@ -14,16 +14,55 @@
       <input type="text" [(ngModel)]="searchedMovie" placeholder="Batman" (keyup.enter)="Onsearch()">
       <button class="find-btn" (click)="Onsearch()">Find It</button>
     </div>
+
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Genre</label>
+        <select [(ngModel)]="selectedGenre" (change)="onFilterChange()">
+          <option value="">All Genres</option>
+          @for (genre of genres(); track genre.id) {
+            <option [value]="genre.id">{{ genre.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Sort By</label>
+        <select [(ngModel)]="selectedSort" (change)="onFilterChange()">
+          <option value="popularity.desc">Popularity</option>
+          <option value="vote_average.desc">Top Rated</option>
+          <option value="primary_release_date.desc">Newest</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Year</label>
+        <input 
+          type="number" 
+          [(ngModel)]="selectedYear" 
+          placeholder="2024" 
+          (change)="onFilterChange()"
+          min="1900" 
+          max="2026"
+        >
+      </div>
+      
+      @if (selectedGenre() || selectedYear()) {
+        <button class="clear-filters" (click)="selectedGenre.set(''); selectedYear.set(''); onFilterChange()">
+          Clear
+        </button>
+      }
+    </div>
   </div>
  
   <!-- show skeletons while loading -->
-<!-- @if (isLoading()) {
-  <div class="movies-grid">
-    @for (item of skeletons; track item) {
-      <app-skeleton-card />
-    }
-  </div>
-} -->
+  @if (movieService.isloading()) {
+    <div class="movie-grid">
+      @for (item of skeletonItems; track item) {
+        <div class="movie-card shimmer" style="height: 400px; border-radius: 24px;"></div>
+      }
+    </div>
+  }
 
 <!-- show real movies when done -->
 
