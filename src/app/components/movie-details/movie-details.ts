@@ -31,13 +31,20 @@ export class MovieDetails {
   newWishListName : string =""
   isLoading = signal<boolean>(true);
 
+  getActorsList(actors: string): string[] {
+    if (!actors || actors === 'N/A') return [];
+    return actors.split(',').map(a => a.trim());
+  }
+
   ngOnInit() {
     const movieData = this.movieService.selectedMovieData();
+    console.log(movieData)
     if (movieData && movieData.imdbID) {
       this.isLoading.set(true);
       this.movieService.getMovieById(movieData.imdbID).subscribe({
         next: (res) => {
           this.selectedMovieDetails.set(res);
+          console.log(res)
           const temp = localStorage.getItem('likedMovies');
           const likedMovies = temp ? JSON.parse(temp) : [];
           const alreadyLiked = likedMovies.some((movie: any) => {

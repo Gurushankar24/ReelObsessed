@@ -5,7 +5,7 @@ import { Injectable, inject, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class MovieService {
-  private apiKey = 'ca3dab5d';
+  private api Key = 'ca3dab5d';
   private baseUrl = 'http://www.omdbapi.com';
 
   selectedMovieData = signal<any>('');

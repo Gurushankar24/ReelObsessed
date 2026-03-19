@@ -58,6 +58,12 @@
         </div>
       }
     </section>
+  } @else if (!movieService.isloading() && searchedMovie.trim() && apiMoviesList().length === 0) {
+    <div class="empty-state">
+      <span class="material-icons empty-icon">search_off</span>
+      <h2>No results for "{{ searchedMovie }}"</h2>
+      <p>Try a different title or check your spelling</p>
+    </div>
   }
 </main>
 

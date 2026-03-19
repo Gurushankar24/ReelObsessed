@@ -50,9 +50,9 @@
   </main>
 } @else if (selectedMovieDetails()) {
   <main class="details-content" @fadeAnimation>
+    <!-- Main Movie Card -->
     <section class="movie-card">
-...
-
+      <div class="poster-side">
         <img
           [src]="
             selectedMovieDetails().Poster !== 'N/A'
@@ -61,6 +61,7 @@
           "
           [alt]="selectedMovieDetails().Title"
         />
+      </div>
       
       <div class="info-side">
         <h1 class="movie-title">{{ selectedMovieDetails().Title }}</h1>
@@ -77,7 +78,7 @@
               <span class="material-icons star-icon">star</span>
             }
           </div>
-          <span class="rating-text">{{ selectedMovieDetails().imdbRating }} / 10.0</span>
+          <span class="rating-text">{{ selectedMovieDetails().imdbRating }} / 10.0 ({{ selectedMovieDetails().imdbVotes }} votes)</span>
         </div>
 
         <div class="plot-section">
@@ -150,10 +151,9 @@
             }
           </div>
 
-          <button class="icon-btn">
+          <button class="icon-btn" (click)="OnlikedMovie(selectedMovieDetails())">
             <span
               class="material-icons"
-              (click)="OnlikedMovie(selectedMovieDetails())"
               [ngClass]="{ liked: isliked(), unliked: !isliked() }"
               >{{ isliked() ? 'favorite' : 'favorite_border' }}</span
             >
@@ -162,25 +162,119 @@
       </div>
     </section>
 
-    <section class="reviews-section">
-      <div class="reviews-header">
-        <h2>Audience Reviews</h2>
-        <button class="see-all-btn">
-          See all <span class="material-icons">chevron_right</span>
-        </button>
+    <!-- Additional Information Sections -->
+    <div class="extra-info-container">
+      
+      <!-- 1. MOVIE INFO ROW -->
+      <section class="info-pills-row">
+        <div class="stat-pill">
+          <span class="label">Rated</span>
+          <span class="value">{{ selectedMovieDetails().Rated }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Released</span>
+          <span class="value">{{ selectedMovieDetails().Released }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Country</span>
+          <span class="value">{{ selectedMovieDetails().Country }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Language</span>
+          <span class="value">{{ selectedMovieDetails().Language }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Director</span>
+          <span class="value">{{ selectedMovieDetails().Director }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Writer</span>
+          <span class="value">{{ selectedMovieDetails().Writer }}</span>
+        </div>
+      </section>
+
+      <div class="grid-layout">
+        <div class="left-column">
+          <!-- 2. CAST SECTION -->
+          <section class="cast-section secondary-card">
+            <h3>STARRING</h3>
+            <div class="actor-chips">
+              @for (actor of getActorsList(selectedMovieDetails().Actors); track actor) {
+                <span class="actor-chip">{{ actor }}</span>
+              }
+            </div>
+          </section>
+
+          <!-- 3. AWARDS SECTION -->
+          <section class="awards-section secondary-card highlight-box">
+            <div class="awards-content">
+              <span class="material-icons trophy-icon">emoji_events</span>
+              <div class="awards-text">
+                <h3>AWARDS & RECOGNITION</h3>
+                <p>{{ selectedMovieDetails().Awards }}</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="right-column">
+          <!-- 4. BOX OFFICE + METASCORE ROW -->
+          <section class="stats-grid">
+            <div class="stat-card box-office">
+              <div class="card-icon"><span class="material-icons">payments</span></div>
+              <div class="card-data">
+                <span class="label">Box Office</span>
+                <span class="value">{{ selectedMovieDetails().BoxOffice !== 'N/A' ? selectedMovieDetails().BoxOffice : '$0.00' }}</span>
+              </div>
+            </div>
+            
+            <div class="stat-card metascore">
+              <div class="score-badge" [ngClass]="{
+                'score-green': +selectedMovieDetails().Metascore >= 60,
+                'score-yellow': +selectedMovieDetails().Metascore >= 40 && +selectedMovieDetails().Metascore < 60,
+                'score-red': +selectedMovieDetails().Metascore < 40
+              }">
+                {{ selectedMovieDetails().Metascore !== 'N/A' ? selectedMovieDetails().Metascore : '--' }}
+              </div>
+              <div class="card-data">
+                <span class="label">Metascore</span>
+                <span class="score-desc">Critical Consensus</span>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
 
-      <div class="reviews-scroll">
-        @for (item of selectedMovieDetails().Ratings; track $index) {
-          <div class="review-card">
-            <div class="reviewer-name">
-              <strong>{{ item.Source }} - </strong>
-              <strong>{{ item.Value }}</strong>
+      <!-- 5. RATINGS SECTION -->
+      <section class="ratings-section">
+        <div class="section-header">
+          <h2>OFFICIAL RATINGS</h2>
+        </div>
+        
+        <div class="ratings-grid">
+          @for (rating of selectedMovieDetails().Ratings; track rating.Source) {
+            <div class="rating-card">
+              <div class="rating-source">
+                @if (rating.Source === 'Internet Movie Database') {
+                  <span class="source-name">IMDB</span>
+                  <span class="material-icons source-icon">star</span>
+                } @else if (rating.Source === 'Rotten Tomatoes') {
+                  <span class="source-name">Rotten Tomatoes</span>
+                  <span class="material-icons source-icon">favorite</span>
+                } @else if (rating.Source === 'Metacritic') {
+                  <span class="source-name">Metacritic</span>
+                  <span class="material-icons source-icon">assessment</span>
+                } @else {
+                  <span class="source-name">{{ rating.Source }}</span>
+                }
+              </div>
+              <div class="rating-value">{{ rating.Value }}</div>
             </div>
-          </div>
-        }
-      </div>
-    </section>
+          }
+        </div>
+      </section>
+
+    </div>
 
     <footer class="footer-info">
       <p>© 2024 ReelObsessed Arthouse. All rights reserved.</p>

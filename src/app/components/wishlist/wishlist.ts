@@ -12,6 +12,8 @@ import { MovieService } from '../../services/movie-service';
 })
 export class Wishlist {
   wishlists = signal<any>({});
+  confirmDelete = signal<string | null>(null);
+  
   private router = inject(Router);
   private toastService = inject(ToastService);
   private movieService = inject(MovieService);
@@ -29,6 +31,19 @@ export class Wishlist {
     this.router.navigate(['/search']);
   }
 
+  toggleConfirmDelete(listName: string | null) {
+    this.confirmDelete.set(listName);
+  }
+
+  deleteWishlist(listName: string) {
+    const currentWishlists = { ...this.wishlists() };
+    delete currentWishlists[listName];
+    this.wishlists.set(currentWishlists);
+    localStorage.setItem('wishlists', JSON.stringify(currentWishlists));
+    this.toastService.success('Wishlist deleted');
+    this.confirmDelete.set(null);
+  }
+
   removeMovie(listName: string, imdbID: string) {
     const currentWishlists = { ...this.wishlists() };
     if (currentWishlists[listName]) {
@@ -37,7 +52,7 @@ export class Wishlist {
       );
       this.wishlists.set(currentWishlists);
       localStorage.setItem('wishlists', JSON.stringify(currentWishlists));
-      this.toastService.info('Removed from Wishlist');
+      this.toastService.info(`Removed from ${listName}`);
     }
   }
 

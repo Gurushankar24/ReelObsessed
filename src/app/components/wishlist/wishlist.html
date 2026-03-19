@@ -8,6 +8,8 @@
 </header>
 
 <main class="wishlist-content">
+  <h2 class="page-title">My Wishlists</h2>
+
   @if (wishlistNames.length > 0) {
     @for (listName of wishlistNames; track listName) {
       <section class="wishlist-category-card">
@@ -15,9 +17,23 @@
           <div class="title-group">
             <span class="material-icons">folder_open</span>
             <h3>{{ listName }}</h3>
+            <span class="movie-count">{{ wishlists()[listName]?.length || 0 }} Movies</span>
           </div>
-          <span class="movie-count">{{ wishlists()[listName]?.length || 0 }} Movies</span>
+          
+          <button class="delete-wishlist-btn" (click)="toggleConfirmDelete(listName)" title="Delete Wishlist">
+            <span class="material-icons">delete_outline</span>
+          </button>
         </div>
+
+        @if (confirmDelete() === listName) {
+          <div class="delete-confirmation">
+            <p>Delete <strong>{{ listName }}</strong>? This will remove all {{ wishlists()[listName]?.length }} movies.</p>
+            <div class="actions">
+              <button class="cancel-btn" (click)="toggleConfirmDelete(null)">Cancel</button>
+              <button class="confirm-btn" (click)="deleteWishlist(listName)">Delete</button>
+            </div>
+          </div>
+        }
 
         <div class="movie-grid">
           @for (movie of wishlists()[listName]; track movie.imdbID) {
@@ -30,6 +46,7 @@
                 <button 
                   class="remove-btn" 
                   (click)="$event.stopPropagation(); removeMovie(listName, movie.imdbID)"
+                  title="Remove from wishlist"
                 >
                   <span class="material-icons">close</span>
                 </button>
@@ -53,14 +70,11 @@
     }
   } @else {
     <div class="empty-state">
-      <div class="icon-circle">
-        <span class="material-icons">auto_awesome_motion</span>
-      </div>
-      <h2>No wishlists yet.</h2>
-      <p>Start adding movies to your collection!</p>
-      <button class="primary-btn" (click)="onBack()">
-        <span class="material-icons">search</span>
-        Find Movies
+      <span class="material-icons empty-icon">bookmark_border</span>
+      <h2>Your wishlist is empty</h2>
+      <p>Save movies to custom lists and find them later</p>
+      <button class="explore-btn" (click)="onBack()">
+        Browse Movies
       </button>
     </div>
   }
