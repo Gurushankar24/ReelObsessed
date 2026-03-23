@@ -23,6 +23,7 @@ export class SearchPage {
   recentlyViewed = signal<any[]>([]);
   currentPage = signal(1);
   movieCount = signal('');
+  hasSearched = signal(false);
 
   ngOnInit() {
     if (this.movieService.lastSearchQuery()) {
@@ -46,10 +47,13 @@ export class SearchPage {
 
   Onsearch() {
     if (!this.searchedMovie.trim()) {
+      this.hasSearched.set(false);
+      this.apiMoviesList.set([]);
       return;
     }
 
     this.movieService.isloading.set(true);
+    this.hasSearched.set(true);
     this.movieService.lastSearchQuery.set(this.searchedMovie);
     
     this.movieService.searchMovies(this.searchedMovie, 1).subscribe({
@@ -77,6 +81,13 @@ export class SearchPage {
         this.movieService.isloading.set(false);
       },
     });
+  }
+
+  onInputChange() {
+    if (!this.searchedMovie.trim()) {
+      this.hasSearched.set(false);
+      this.apiMoviesList.set([]);
+    }
   }
 
   onClick(data: any) {

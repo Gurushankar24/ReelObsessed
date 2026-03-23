@@ -11,7 +11,7 @@
   <div class="search-container">
     <div class="search-bar">
       <span class="material-icons search-icon">search</span>
-      <input type="text" [(ngModel)]="searchedMovie" placeholder="Batman" (keyup.enter)="Onsearch()">
+      <input type="text" [(ngModel)]="searchedMovie" placeholder="Batman" (keyup.enter)="Onsearch()" (input)="onInputChange()">
       <button class="find-btn" (click)="Onsearch()">Find It</button>
     </div>
   </div>
@@ -87,7 +87,7 @@
         </div>
       }
     </section>
-  } @else if (!movieService.isloading() && searchedMovie.trim() && apiMoviesList().length === 0) {
+  } @else if (!movieService.isloading() && searchedMovie.trim() && apiMoviesList().length === 0 && hasSearched()) {
     <div class="empty-state">
       <span class="material-icons empty-icon">search_off</span>
       <h2>No results for "{{ searchedMovie }}"</h2>
