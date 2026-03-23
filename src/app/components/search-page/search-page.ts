@@ -56,14 +56,6 @@ export class SearchPage {
       next: (res) => {
         this.currentPage.set(1);
         
-        if (res.Response === 'False') {
-          this.apiMoviesList.set([]);
-          this.movieCount.set('0');
-          this.toastService.warning(res.Error || 'No movies found');
-          this.movieService.isloading.set(false);
-          return;
-        }
-
         if (res.Search) {
           const unique = res.Search.filter((currentVal: any, index: number, wholeArray: any) => {
             return (
@@ -80,8 +72,9 @@ export class SearchPage {
         this.movieService.isloading.set(false);
       },
       error: (err) => {
+        this.apiMoviesList.set([]);
+        this.movieCount.set('0');
         this.movieService.isloading.set(false);
-        this.toastService.error('Something went wrong, try again');
       },
     });
   }
@@ -123,7 +116,6 @@ export class SearchPage {
         }
       },
       error: (err) => {
-        this.toastService.error('Something went wrong, try again');
       }
     });
   }

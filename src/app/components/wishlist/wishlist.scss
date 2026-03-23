@@ -5,12 +5,24 @@
   display: flex;
   align-items: center;
 
+  @media (max-width: 640px) {
+    padding: 8px 16px;
+  }
+
   .header-container {
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 32px 128px 8px;
+
+    @media (max-width: 1024px) {
+      padding: 32px 40px 8px;
+    }
+
+    @media (max-width: 640px) {
+      padding: 16px 0 8px;
+    }
   }
 
   .back-link {
@@ -37,11 +49,24 @@
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 1024px) {
+    padding: 24px 40px 64px;
+  }
+
+  @media (max-width: 640px) {
+    padding: 16px 16px 48px;
+  }
+
   .page-title {
     font-size: 32px;
     font-weight: 400;
     margin-bottom: 32px;
     color: var(--text-primary);
+
+    @media (max-width: 640px) {
+      font-size: 24px;
+      margin-bottom: 24px;
+    }
   }
 }
 
@@ -102,6 +127,12 @@
   margin-bottom: 48px;
   backdrop-filter: blur(8px);
 
+  @media (max-width: 640px) {
+    padding: 20px;
+    margin-bottom: 32px;
+    border-radius: 16px;
+  }
+
   .category-header {
     display: flex;
     justify-content: space-between;
@@ -110,10 +141,20 @@
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
     .title-group {
       display: flex;
       align-items: center;
       gap: 12px;
+
+      @media (max-width: 480px) {
+        flex-wrap: wrap;
+      }
 
       .material-icons {
         color: var(--accent-color);
@@ -125,6 +166,10 @@
         font-weight: 700;
         color: var(--text-primary);
         text-transform: capitalize;
+
+        @media (max-width: 640px) {
+          font-size: 20px;
+        }
       }
 
       .movie-count {
@@ -149,6 +194,10 @@
       justify-content: center;
       transition: all 0.2s;
       cursor: pointer;
+
+      @media (max-width: 480px) {
+        align-self: flex-end;
+      }
 
       &:hover {
         background: #ef4444;
@@ -217,8 +266,21 @@
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .movie-card {
@@ -319,8 +381,6 @@
 }
 
 @media (max-width: 1024px) {
-  .details-header .header-container { padding: 32px 40px 8px; }
-  .wishlist-content { padding: 24px 40px 64px; }
 }
 
 @media (max-width: 640px) {

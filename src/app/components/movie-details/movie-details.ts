@@ -36,6 +36,27 @@ export class MovieDetails {
     return actors.split(',').map(a => a.trim());
   }
 
+  /** Maps imdbRating (0–10) to an array of 5 Material icon names */
+  getStarIcons(imdbRating: string): string[] {
+    const rating = parseFloat(imdbRating);
+    if (isNaN(rating)) return Array(5).fill('star_border');
+
+    // Scale 0–10 → 0–5
+    const scaled = rating / 2;
+    const stars: string[] = [];
+
+    for (let i = 1; i <= 5; i++) {
+      if (scaled >= i) {
+        stars.push('star');           // fully filled
+      } else if (scaled >= i - 0.5) {
+        stars.push('star_half');      // half filled
+      } else {
+        stars.push('star_border');    // empty
+      }
+    }
+    return stars;
+  }
+
   ngOnInit() {
     const movieData = this.movieService.selectedMovieData();
     console.log(movieData)
@@ -54,10 +75,8 @@ export class MovieDetails {
           this.isLoading.set(false);
         },
         error: (err) => {
-          console.error('API Error:', err);
           this.isliked.set(false);
           this.isLoading.set(false);
-          this.toastService.error('Something went wrong, try again');
         },
       });
     } else {
@@ -132,4 +151,3 @@ export class MovieDetails {
     this.newWishListName = "";
   }
 }
- 

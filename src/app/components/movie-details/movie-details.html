@@ -75,11 +75,16 @@
 
         <div class="rating-row">
           <div class="stars">
-            @for (star of [1, 2, 3, 4, 5]; track star) {
-              <span class="material-icons star-icon">star</span>
+            @for (icon of getStarIcons(selectedMovieDetails().imdbRating); track $index) {
+              <span class="material-icons star-icon">{{ icon }}</span>
             }
           </div>
-          <span class="rating-text">{{ selectedMovieDetails().imdbRating }} / 10.0 ({{ selectedMovieDetails().imdbVotes }} votes)</span>
+          <span class="rating-text">
+            {{ selectedMovieDetails().imdbRating !== 'N/A' ? selectedMovieDetails().imdbRating : '–' }} / 10
+            @if (selectedMovieDetails().imdbVotes !== 'N/A') {
+              <span class="votes">({{ selectedMovieDetails().imdbVotes }} votes)</span>
+            }
+          </span>
         </div>
 
         <div class="plot-section">
