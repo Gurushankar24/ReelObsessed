@@ -2,6 +2,32 @@
 
 A feature-rich movie discovery app built with **Angular 21** and the **OMDb API**. Search for any movie, explore detailed info, like your favorites, and organize them into custom wishlists — all with a sleek dark/purple UI.
 
+🔗 **[Live Demo → reelobsessed.netlify.app](https://reelobsessed.netlify.app)**
+
+---
+
+## 📸 Demo
+
+**Search & Movie Details**
+
+![Search and Movie Details](src/assets/search-moviedetails.gif)
+
+**Skeleton Loaders**
+
+![Skeleton Loaders](src/assets/skeletonloaders.gif)
+
+**Liked & Wishlist**
+
+![Liked and Wishlist](src/assets/wishlist-liked.gif)
+
+**Recently Viewed & Toast Notifications**
+
+![Recently Viewed and Toasts](src/assets/recentlyviewed-toastr%20.gif)
+
+**Watch Trailer**
+
+![Watch Trailer](src/assets/trailer.gif)
+
 ---
 
 ## ✨ Features
@@ -111,12 +137,6 @@ This project uses the free [OMDb API](https://www.omdbapi.com/) for movie data.
 
 ---
 
-## 📸 Screenshots
-
-> *(Add screenshots or a GIF demo here once deployed)*
-
----
-
 ## 🧠 Angular Concepts Showcased
 
 This project was built to practice and demonstrate real-world Angular patterns:
@@ -124,7 +144,7 @@ This project was built to practice and demonstrate real-world Angular patterns:
 - **Signals** — Reactive state throughout using `signal`, `.set()`, `.update()`
 - **Standalone Components** — Full standalone API, no NgModules
 - **HTTP Interceptors** — Centralized error handling via `error.interceptor.ts`
-- **Angular Animations** — Fade-in on details page, shake + slide-out on card removal
+- **Angular Animations** — Fade + slide-up on details page, shake + slide-out on card removal
 - **CDK Drag & Drop** — Drag distance threshold detection for swipe-to-remove on liked movies
 - **Angular Material** — Icons and UI primitives
 - **Router with Child Routes** — Nested layout using `Header` as the parent route shell
@@ -134,7 +154,6 @@ This project was built to practice and demonstrate real-world Angular patterns:
 
 ## 📌 Roadmap
 
-- [ ] Deploy to Vercel / Netlify
 - [ ] Add filtering by genre, year, and type (movie/series)
 - [ ] Sort liked movies and wishlist items
 - [ ] Shareable wishlist links
