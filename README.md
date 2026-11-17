@@ -107,7 +107,7 @@ npm install -g @angular/cli
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/ReelObsessed.git
+git clone https://github.com/Gurushankar24/ReelObsessed.git
 cd ReelObsessed
 
 # Install dependencies
