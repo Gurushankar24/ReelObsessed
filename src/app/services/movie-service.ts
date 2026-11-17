@@ -1,12 +1,12 @@
+// movie-service.ts
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class MovieService {
-  private apiKey = 'ca3dab5d';
-  private baseUrl = 'https://www.omdbapi.com';
+  private readonly baseUrl = environment.omdbBaseUrl;
+  private readonly apiKey = environment.omdbApiKey;
 
   selectedMovieData = signal<any>('');
   lastSearchQuery = signal<string>('');
@@ -15,15 +15,17 @@ export class MovieService {
   currentPage = signal(1);
   movieCount = signal('');
 
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
 
   searchMovies(query: string, page: number) {
-    const url = this.baseUrl + `?s=${query}&page=${page}&apikey=${this.apiKey}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(this.baseUrl, {
+      params: { s: query, page, apikey: this.apiKey },
+    });
   }
 
   getMovieById(id: string) {
-    const url = this.baseUrl + `?i=${id}&apikey=${this.apiKey}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(this.baseUrl, {
+      params: { i: id, apikey: this.apiKey },
+    });
   }
 }

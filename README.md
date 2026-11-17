@@ -1,12 +1,12 @@
-# 🎬 ReelObsessed
+#  ReelObsessed
 
 A feature-rich movie discovery app built with **Angular 21** and the **OMDb API**. Search for any movie, explore detailed info, like your favorites, and organize them into custom wishlists — all with a sleek dark/purple UI.
 
-🔗 **[Live Demo → reelobsessed.netlify.app](https://reelobsessed.netlify.app)**
+ **[Live Demo → reelobsessed.netlify.app](https://reelobsessed.netlify.app)**
 
 ---
 
-## 📸 Demo
+##  Demo
 
 **Search & Movie Details**
 
@@ -30,24 +30,24 @@ A feature-rich movie discovery app built with **Angular 21** and the **OMDb API*
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🔍 **Movie Search** — Search millions of movies powered by the OMDb API with real-time results
-- 📄 **Movie Details** — Full details including plot, cast, genre, release year, runtime, ratings, and awards
-- ⭐ **Star Rating Display** — IMDb ratings visually mapped to a 5-star scale with half-star precision
-- 🎬 **Watch Trailer** — One-click redirect to YouTube trailer search for any movie
-- ❤️ **Liked Movies** — Like/unlike movies and manage your collection on the Liked page
-- 👆 **Drag to Remove** — Swipe liked movie cards left to remove them with a smooth shake animation
-- 📋 **Wishlists** — Create multiple named wishlists and add any movie to them
-- 🕐 **Recently Viewed** — Automatically tracks the last 10 movies you clicked on
-- ⏬ **Load More / Pagination** — Load additional search results incrementally
-- 💀 **Skeleton Loaders** — Smooth loading placeholders while API results are fetched
-- 🔔 **Toast Notifications** — Non-intrusive feedback for all user actions (success, info, warning, error)
-- 💾 **Persistent Storage** — Liked movies, wishlists, and recently viewed are saved in `localStorage`
+-  **Movie Search** — Search millions of movies powered by the OMDb API with real-time results
+-  **Movie Details** — Full details including plot, cast, genre, release year, runtime, ratings, and awards
+-  **Star Rating Display** — IMDb ratings visually mapped to a 5-star scale with half-star precision
+-  **Watch Trailer** — One-click redirect to YouTube trailer search for any movie
+-  **Liked Movies** — Like/unlike movies and manage your collection on the Liked page
+-  **Drag to Remove** — Swipe liked movie cards left to remove them with a smooth shake animation
+-  **Wishlists** — Create multiple named wishlists and add any movie to them
+-  **Recently Viewed** — Automatically tracks the last 10 movies you clicked on
+-  **Load More / Pagination** — Load additional search results incrementally
+-  **Skeleton Loaders** — Smooth loading placeholders while API results are fetched
+-  **Toast Notifications** — Non-intrusive feedback for all user actions (success, info, warning, error)
+-  **Persistent Storage** — Liked movies, wishlists, and recently viewed are saved in `localStorage`
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Category | Technology |
 |---|---|
@@ -65,7 +65,7 @@ A feature-rich movie discovery app built with **Angular 21** and the **OMDb API*
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -91,33 +91,33 @@ src/
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js (v18+)
-- npm (v9+)
-- Angular CLI
-
-```bash
-npm install -g @angular/cli
-```
-
 ### Installation
 
 ```bash
-# Clone the repo
-git clone https://github.com/your-username/ReelObsessed.git
+git clone https://github.com/Gurushankar24/ReelObsessed.git
 cd ReelObsessed
-
-# Install dependencies
 npm install
+```
 
-# Start the dev server
+### Environment setup
+
+This app uses the free [OMDb API](https://www.omdbapi.com/apikey.aspx). Get a key, then:
+
+```bash
+cp src/environments/environment.example.ts src/environments/environment.ts
+```
+
+Open `src/environments/environment.ts` and set `omdbApiKey` to your key.
+This file is gitignored, so your key is never committed.
+
+### Run
+
+```bash
 ng serve
 ```
 
-Open your browser at `http://localhost:4200`
+Open http://localhost:4200
+
 
 ### Build for Production
 
@@ -129,7 +129,7 @@ Output will be in the `dist/` folder.
 
 ---
 
-## 🔑 API
+##  API
 
 This project uses the free [OMDb API](https://www.omdbapi.com/) for movie data.
 
@@ -137,7 +137,7 @@ This project uses the free [OMDb API](https://www.omdbapi.com/) for movie data.
 
 ---
 
-## 🧠 Angular Concepts Showcased
+## Angular Concepts Showcased
 
 This project was built to practice and demonstrate real-world Angular patterns:
 
@@ -152,16 +152,8 @@ This project was built to practice and demonstrate real-world Angular patterns:
 
 ---
 
-## 📌 Roadmap
 
-- [ ] Add filtering by genre, year, and type (movie/series)
-- [ ] Sort liked movies and wishlist items
-- [ ] Shareable wishlist links
-- [ ] Dark/light theme toggle
-
----
-
-## 👤 Author
+## Dev
 
 **Gurushankar**
 - LinkedIn: [linkedin.com/in/gurushankarv](https://www.linkedin.com/in/gurushankarv)
