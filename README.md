@@ -94,6 +94,7 @@ src/
 ### Installation
 
 ```bash
+# Clone the repo
 git clone https://github.com/Gurushankar24/ReelObsessed.git
 cd ReelObsessed
 npm install
